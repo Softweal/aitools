@@ -1,6 +1,6 @@
 # aitools
 
-[![Wails build](https://github.com/Softweal/aitools/actions/workflows/wails.yml/badge.svg)](https://github.com/Softweal/aitools/actions/workflows/wails.yml)
+[![Wails build](https://github.com/Softweal/aitools/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/Softweal/aitools/actions/workflows/main.yml)
 
 ## About
 
