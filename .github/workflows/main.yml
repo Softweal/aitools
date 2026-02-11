@@ -1,4 +1,4 @@
-name: Wails build
+name: Wails Build
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
       - "*"
 
 env:
-  # Node.js bellek sınırı (büyük frontend buildleri için gerekli)
   NODE_OPTIONS: "--max-old-space-size=4096"
 
 jobs:
@@ -26,14 +25,14 @@ jobs:
             os: "macos-latest"
 
     runs-on: ${{ matrix.build.os }}
-
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      # 2. Linux Bağımlılıklarının Kurulumu (Sadece Linux için çalışır)
+      # 2. Linux için gerekli kütüphaneler
       - name: Install Linux Dependencies
         if: matrix.build.os == 'ubuntu-latest'
         run: |
@@ -44,27 +43,29 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: "stable"
+          go-version: '1.23'
           check-latest: true
 
-      # 4. Node.js Kurulumu (Frontend build için)
+      # 4. Node.js Kurulumu
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20" # LTS sürümü
+          node-version: '20'
 
-      # 5. Wails CLI Kurulumu
+      # 5. Wails CLI'ı Manuel Kur
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
 
+      # 6. Uygulamayı Derle
       - name: Build Wails App
         shell: bash
         run: |
           wails build -platform ${{ matrix.build.platform }} -clean
 
-      # Build artifact
+      # 7. Çıktıyı Yükle
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.build.name }}
           path: build/bin/*
+          if-no-files-found: error
