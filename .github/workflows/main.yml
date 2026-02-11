@@ -77,7 +77,10 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/**/*
+          files: |
+            artifacts/wails-ubuntu-latest/*
+            artifacts/wails-windows-latest/*
+            artifacts/wails-macos-latest/*
           draft: false
           prerelease: false
           generate_release_notes: true
