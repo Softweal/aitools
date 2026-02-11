@@ -28,7 +28,6 @@ jobs:
     runs-on: ${{ matrix.build.os }}
 
     steps:
-      # 1. Checkout (v4'e güncellendi)
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -41,11 +40,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev build-essential pkg-config
 
-      # 3. Go Kurulumu (v5 ve Güncel Go sürümü)
+      # 3. Go Kurulumu
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.23" # Veya 'stable' yazarak her zaman en son sürümü alabilirsiniz
+          go-version: "stable"
           check-latest: true
 
       # 4. Node.js Kurulumu (Frontend build için)
@@ -54,17 +53,16 @@ jobs:
         with:
           node-version: "20" # LTS sürümü
 
-      # 5. Wails CLI Kurulumu (En güncel yöntem)
+      # 5. Wails CLI Kurulumu
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
 
-      # 6. Build İşlemi
       - name: Build Wails App
         shell: bash
         run: |
           wails build -platform ${{ matrix.build.platform }} -clean
 
-      # Opsiyonel: Build dosyasını artifact olarak yükleme (İndirebilmeniz için)
+      # Build artifact
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
