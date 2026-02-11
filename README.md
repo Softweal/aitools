@@ -1,4 +1,6 @@
-# README
+# aitools
+
+[![Wails build](https://github.com/Softweal/aitools/actions/workflows/wails.yml/badge.svg)](https://github.com/Softweal/aitools/actions/workflows/wails.yml)
 
 ## About
 
